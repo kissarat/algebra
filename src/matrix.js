@@ -5,13 +5,28 @@ function size(A) {
   return [A.length, A[0].length];
 }
 
+const mutable = {
+  create(x, y, initial = () => 0) {
+    return [...basic.range(x)].map(i => [...basic.range(y)].map(j => initial(i, j)));
+  },
+
+  map(A, fn = a => a) {
+    return A.map((row, i) => row.map((a, j) => fn(a, i, j)));
+  }
+};
+
 function freeze(A) {
   return Object.freeze(A.map(row => Object.freeze(row)));
 }
 
-function create(x, y, initial = () => 0) {
-  return freeze([...basic.range(x)].map(i => [...basic.range(y)].map(j => initial(i, j))));
+function immutable(fn) {
+  return function (...args) {
+    return freeze(fn(...args));
+  }
 }
+
+const create = immutable(mutable.create);
+const map = immutable(mutable.map);
 
 function index(A) {
   return A.map((row, i) => row.map((item, j) => [i, j, item]))
@@ -31,10 +46,6 @@ function transpose(A) {
 
 function zero(size) {
   return create(size, size, (i, j) => i === j ? 1 : 0);
-}
-
-function map(A, fn) {
-  return freeze(A.map((row, i) => row.map((a, j) => fn(a, i, j))));
 }
 
 function every(A, fn) {
@@ -94,7 +105,16 @@ function parse(string) {
   return string.trim().split(/\n/g).map(s => s.trim().split(/\s+/g).map(s => +s))
 }
 
+function isElementary(A) {
+  return equals(multiply(A, identity(A.length)), A);
+}
+
+function set(A, i, j, value) {
+  return map(A, (a, ii, jj) => i === ii && j === jj ? value : a);
+}
+
 module.exports = {
+  mutable,
   size,
   create,
   index,
@@ -111,5 +131,7 @@ module.exports = {
   equals,
   identity,
   isFinite,
-  parse
+  parse,
+  isElementary,
+  set
 };

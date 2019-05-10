@@ -31,6 +31,8 @@ function assertFinite(matrices) {
   }
 }
 
+const assertElementary = A => assert(matrix.isElementary(A));
+
 function random(max = 5, min = 1) {
   return matrix.random(basic.random(max, min), basic.random(max, min))
 }
@@ -94,6 +96,38 @@ describe('matrix', function () {
                             4	4	5`);
     assertFinite({A});
     assert(matrix.equals(A, [[5,4,1],[1,3,4],[4,4,5]]));
+  });
+
+  it('set', function () {
+    const A = random();
+    const i = basic.random(A.length);
+    const j = basic.random(A[0].length);
+    const c = basic.random(1000);
+    const B = matrix.mutable.map(A);
+    B[i][j] = c;
+    const C = matrix.set(A, i, j, c);
+    assert(matrix.equals(C, B));
+  });
+
+  it('isElementary', function () {
+    assertElementary([[1]]);
+    assertElementary([[5]]);
+    // const [a, b, c] = [...basic.range(3)].map(() => basic.random(1, 1000));
+    const c = basic.random(1000, 1);
+    assertElementary([
+        [1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, c, 0, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 1],
+    ]);
+
+    for(const i of basic.range(15)) {
+      const size = 2 * i + 1;
+      const I = matrix.identity(size);
+      assertElementary(I);
+      assertElementary(matrix.set(I, i, i, basic.random(1000, 1)));
+    }
   });
 
   // it('det', function () {

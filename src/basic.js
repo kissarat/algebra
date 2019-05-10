@@ -58,5 +58,7 @@ module.exports = {
   map,
   random,
   add,
-  multiply
+  multiply,
+  zero: () => 0,
+  one: () => 1,
 };
