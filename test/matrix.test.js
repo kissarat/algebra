@@ -33,4 +33,14 @@ describe('matrix', function () {
     const A = matrix.identity(basic.random(10, 1));
     assert(matrix.every(A, (a, i, j) => a === (i === j ? 1 : 0)));
   });
+
+  it('multiply', function () {
+    const A = random();
+    const B = matrix.random(...matrix.size(A).reverse());
+    const C = matrix.multiply(A, B);
+    const every = (A, B, C) => matrix.every(A, (a, i, j) => a * B[j][i] === C[i][j]);
+    assert(every(A, B, C));
+    const D = matrix.multiply(B, A);
+    assert(every(B, A, D));
+  });
 });
