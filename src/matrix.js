@@ -5,20 +5,24 @@ function size(A) {
   return [A.length, A[0].length];
 }
 
+function freeze(A) {
+  return Object.freeze(A.map(row => Object.freeze(row)));
+}
+
 function create(x, y, initial = () => 0) {
-  return [...basic.range(x)].map(i => [...basic.range(y)].map(j => initial(i, j)));
+  return freeze([...basic.range(x)].map(i => [...basic.range(y)].map(j => initial(i, j))));
 }
 
 function index(A) {
   return A.map((row, i) => row.map((item, j) => [i, j, item]))
 }
 
-function assemble(indexed, defaultValue = 0) {
-  return function (i, j) {
-    const found = indexed.find(idx => i === idx[0] && j === idx[1]);
-    return found ? found[2] : defaultValue
-  }
-}
+// function assemble(indexed, defaultValue = 0) {
+//   return function (i, j) {
+//     const found = indexed.find(idx => i === idx[0] && j === idx[1]);
+//     return found ? found[2] : defaultValue
+//   }
+// }
 
 function transpose(A) {
   const [x, y] = size(A);
@@ -30,7 +34,7 @@ function zero(size) {
 }
 
 function map(A, fn) {
-  return A.map((row, i) => row.map((a, j) => fn(a, i, j)));
+  return freeze(A.map((row, i) => row.map((a, j) => fn(a, i, j))));
 }
 
 function every(A, fn) {
@@ -76,12 +80,14 @@ function pretty(A) {
   return A.map(row => row.join(' ')).join('\n')
 }
 
-function identity(s) {
-  return create(s, s, (i, j) => i === j ? 1 : 0)
-}
+const identity = cache(s => create(s, s, (i, j) => i === j ? 1 : 0));
 
 function isFinite(A) {
   return every(A, a => Number.isFinite(a));
+}
+
+function inverse(A) {
+  return multiply(A, identity(A.length));
 }
 
 module.exports = {
@@ -90,7 +96,7 @@ module.exports = {
   index,
   transpose,
   zero,
-  assemble,
+  // assemble,
   det,
   map,
   multiply,
