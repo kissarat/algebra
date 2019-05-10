@@ -80,6 +80,10 @@ function identity(s) {
   return create(s, s, (i, j) => i === j ? 1 : 0)
 }
 
+function isFinite(A) {
+  return every(A, a => Number.isFinite(a));
+}
+
 module.exports = {
   size,
   create,
@@ -95,6 +99,6 @@ module.exports = {
   every,
   size,
   equals,
-  identity
+  identity,
+  isFinite
 };
-
