@@ -7,5 +7,31 @@
   },
   "scripts": {
     "test": "mocha test/bootstrap.js test/*.test.js"
-  }
+  },
+  "name": "laba",
+  "version": "0.0.1",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "auxiliary": "0.0.17"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kissarat/mathematics.git"
+  },
+  "keywords": [
+    "mathematics",
+    "algebra",
+    "matrices",
+    "vector",
+    "fundamental"
+  ],
+  "author": "Taras Labiak <kissarat@gmail.com>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/kissarat/mathematics/issues"
+  },
+  "homepage": "https://github.com/kissarat/mathematics#readme"
 }
