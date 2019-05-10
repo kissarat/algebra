@@ -50,7 +50,33 @@ function multiply(a, b) {
   return a * b;
 }
 
+function last(array) {
+  return array[array.length - 1];
+}
+
+const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+let lastPrimesNumber = last(primes);
+
+function isPrime(n) {
+  if (n > 2) {
+    if (n <= lastPrimesNumber) {
+      return primes.includes(n);
+    }
+    prime: for(; lastPrimesNumber <= n; lastPrimesNumber++) {
+      for(const prime of primes) {
+        if (lastPrimesNumber % prime === 0) {
+          continue prime;
+        }
+      }
+      primes.push(lastPrimesNumber);
+    }
+    return last(primes) === n;
+  }
+  return false;
+}
+
 module.exports = {
+  last,
   range,
   filter,
   compose,
@@ -61,4 +87,6 @@ module.exports = {
   multiply,
   zero: () => 0,
   one: () => 1,
+  isPrime,
+  primes
 };

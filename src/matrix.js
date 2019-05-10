@@ -1,4 +1,5 @@
-const {declare, cache, address, expression} = require('./generate');
+const {declare, address, expression} = require('./generate');
+const cache = require('./cache');
 const basic = require('./basic');
 
 function size(A) {

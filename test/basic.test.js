@@ -26,4 +26,14 @@ describe('basic', function () {
     const vector = [3, 2, 5];
     composeTest(vector.map(a => [...basic.range(a)]), vector.reduce(basic.multiply, 1))
   });
+
+  it('primes', function () {
+    for(const i of [35, 42, 33, 45, 51]) {
+      assert(!basic.isPrime(i));
+    }
+
+    for(const i of [31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113]) {
+      assert(basic.isPrime(i));
+    }
+  })
 });
