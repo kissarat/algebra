@@ -10,7 +10,7 @@ function rangeTest(min, max) {
 }
 
 function print(matrices) {
-  for(const key in matrices) {
+  for (const key in matrices) {
     const m = matrices[key];
     const string = matrix.pretty(m);
     console.log(`${key}:\n${string}\n`);
@@ -18,7 +18,7 @@ function print(matrices) {
 }
 
 function assertFinite(matrices) {
-  for(const key in matrices) {
+  for (const key in matrices) {
     const m = matrices[key];
     try {
       assert(matrix.isFinite(m));
@@ -85,7 +85,20 @@ describe('matrix', function () {
     const C = matrix.multiply(I, A);
     assert(C.length === A.length);
     assertFinite({A, I, B, C});
-    // print({A, I, B, C});
     assert(matrix.equals(C, B))
   });
+
+  it('parse', function () {
+    const A = matrix.parse(`5	4	1
+                            1	3	4
+                            4	4	5`);
+    assertFinite({A});
+    assert(matrix.equals(A, [[5,4,1],[1,3,4],[4,4,5]]));
+  });
+
+  // it('det', function () {
+  //   const A = [[5,4,1],[1,3,4],[4,4,5]];
+  //   console.log(matrix.det(A));
+  //   assert(matrix.det(A) === 31);
+  // });
 });

@@ -90,6 +90,10 @@ function inverse(A) {
   return multiply(A, identity(A.length));
 }
 
+function parse(string) {
+  return string.trim().split(/\n/g).map(s => s.trim().split(/\s+/g).map(s => +s))
+}
+
 module.exports = {
   size,
   create,
@@ -106,5 +110,6 @@ module.exports = {
   size,
   equals,
   identity,
-  isFinite
+  isFinite,
+  parse
 };
